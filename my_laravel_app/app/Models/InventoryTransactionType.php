@@ -22,12 +22,7 @@ use Illuminate\Database\Eloquent\Model;
 class InventoryTransactionType extends Model
 {
 	protected $table = 'inventory_transaction_types';
-	public $incrementing = false;
 	public $timestamps = false;
-
-	protected $casts = [
-		'id' => 'int'
-	];
 
 	protected $fillable = [
 		'type_name'

@@ -1,40 +1,41 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PurchaseOrderStatus
- * 
- * @property int $id
- * @property string|null $status
- * 
- * @property Collection|PurchaseOrder[] $purchase_orders
  *
- * @package App\Models
+ * @property $id
+ * @property $status
+ * @property $created_at
+ * @property $updated_at
+ *
+ * @property PurchaseOrder[] $purchaseOrders
+ * @package App
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class PurchaseOrderStatus extends Model
 {
 	protected $table = 'purchase_order_status';
-	public $incrementing = false;
-	public $timestamps = false;
+    
+    protected $perPage = 20;
 
-	protected $casts = [
-		'id' => 'int'
-	];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = ['status'];
 
-	protected $fillable = [
-		'status'
-	];
 
-	public function purchase_orders()
-	{
-		return $this->hasMany(PurchaseOrder::class, 'status_id');
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchaseOrders()
+    {
+        return $this->hasMany(\App\Models\PurchaseOrder::class, 'id', 'status_id');
+    }
+    
 }

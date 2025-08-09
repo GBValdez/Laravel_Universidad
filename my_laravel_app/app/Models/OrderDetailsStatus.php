@@ -22,12 +22,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderDetailsStatus extends Model
 {
 	protected $table = 'order_details_status';
-	public $incrementing = false;
 	public $timestamps = false;
-
-	protected $casts = [
-		'id' => 'int'
-	];
 
 	protected $fillable = [
 		'status_name'
