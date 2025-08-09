@@ -30,7 +30,36 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+ <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Orders
+                                </a>
 
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ url('/home') }}">
+                                        Home
+                                    </a>
+                                    <a class="dropdown-item" href="{{ url('/employees') }}">
+                                        Employees
+                                    </a>
+                                    <!-- Suppliers -->
+                                    <a class="dropdown-item" href="{{ url('/suppliers') }}">
+                                        Suppliers
+                                    </a>
+
+                                    <!-- Purchase Order Status -->
+                                    <a class="dropdown-item" href="{{ url('/purchase-order-status') }}">
+                                        Purchase Order Status
+                                    </a>
+
+                                    <!-- Purchase Orders -->
+                                    <a class="dropdown-item" href="{{ url('/purchase-orders') }}">
+                                        Purchase Orders
+                                    </a>
+
+
+                                </div>
+                            </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

@@ -1,104 +1,88 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PurchaseOrder
- * 
- * @property int $id
- * @property int|null $supplier_id
- * @property int|null $created_by
- * @property Carbon|null $submitted_date
- * @property Carbon|null $creation_date
- * @property int|null $status_id
- * @property Carbon|null $expected_date
- * @property float $shipping_fee
- * @property float $taxes
- * @property Carbon|null $payment_date
- * @property float|null $payment_amount
- * @property string|null $payment_method
- * @property string|null $notes
- * @property int|null $approved_by
- * @property Carbon|null $approved_date
- * @property int|null $submitted_by
- * 
- * @property Employee|null $employee
- * @property PurchaseOrderStatus|null $purchase_order_status
- * @property Supplier|null $supplier
- * @property Collection|InventoryTransaction[] $inventory_transactions
- * @property Collection|PurchaseOrderDetail[] $purchase_order_details
  *
- * @package App\Models
+ * @property $id
+ * @property $supplier_id
+ * @property $created_by
+ * @property $submitted_date
+ * @property $creation_date
+ * @property $status_id
+ * @property $expected_date
+ * @property $shipping_fee
+ * @property $taxes
+ * @property $payment_date
+ * @property $payment_amount
+ * @property $payment_method
+ * @property $notes
+ * @property $approved_by
+ * @property $approved_date
+ * @property $submitted_by
+ *
+ * @property Employee $employee
+ * @property PurchaseOrderStatus $purchaseOrderStatus
+ * @property Supplier $supplier
+ * @property InventoryTransaction[] $inventoryTransactions
+ * @property PurchaseOrderDetail[] $purchaseOrderDetails
+ * @package App
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class PurchaseOrder extends Model
 {
-	protected $table = 'purchase_orders';
-	public $timestamps = false;
+    
+    protected $perPage = 20;
 
-	protected $casts = [
-		'supplier_id' => 'int',
-		'created_by' => 'int',
-		'submitted_date' => 'datetime',
-		'creation_date' => 'datetime',
-		'status_id' => 'int',
-		'expected_date' => 'datetime',
-		'shipping_fee' => 'float',
-		'taxes' => 'float',
-		'payment_date' => 'datetime',
-		'payment_amount' => 'float',
-		'approved_by' => 'int',
-		'approved_date' => 'datetime',
-		'submitted_by' => 'int'
-	];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = ['supplier_id', 'created_by', 'submitted_date', 'creation_date', 'status_id', 'expected_date', 'shipping_fee', 'taxes', 'payment_date', 'payment_amount', 'payment_method', 'notes', 'approved_by', 'approved_date', 'submitted_by'];
 
-	protected $fillable = [
-		'supplier_id',
-		'created_by',
-		'submitted_date',
-		'creation_date',
-		'status_id',
-		'expected_date',
-		'shipping_fee',
-		'taxes',
-		'payment_date',
-		'payment_amount',
-		'payment_method',
-		'notes',
-		'approved_by',
-		'approved_date',
-		'submitted_by'
-	];
 
-	public function employee()
-	{
-		return $this->belongsTo(Employee::class, 'created_by');
-	}
-
-	public function purchase_order_status()
-	{
-		return $this->belongsTo(PurchaseOrderStatus::class, 'status_id');
-	}
-
-	public function supplier()
-	{
-		return $this->belongsTo(Supplier::class);
-	}
-
-	public function inventory_transactions()
-	{
-		return $this->hasMany(InventoryTransaction::class);
-	}
-
-	public function purchase_order_details()
-	{
-		return $this->hasMany(PurchaseOrderDetail::class);
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function employee()
+    {
+        return $this->belongsTo(\App\Models\Employee::class, 'created_by', 'id');
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function purchaseOrderStatus()
+    {
+        return $this->belongsTo(\App\Models\PurchaseOrderStatus::class, 'status_id', 'id');
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function supplier()
+    {
+        return $this->belongsTo(\App\Models\Supplier::class, 'supplier_id', 'id');
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function inventoryTransactions()
+    {
+        return $this->hasMany(\App\Models\InventoryTransaction::class, 'id', 'purchase_order_id');
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchaseOrderDetails()
+    {
+        return $this->hasMany(\App\Models\PurchaseOrderDetail::class, 'id', 'purchase_order_id');
+    }
+    
 }
